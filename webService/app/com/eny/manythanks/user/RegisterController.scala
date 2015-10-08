@@ -11,10 +11,11 @@ import scala.concurrent.Future
 
 class RegisterController extends Controller {
 
-  private case class RegisterRequest(id:String)
+  private case class RegisterRequest(uid:String, id:String)
 
   private val form = Form(
     mapping(
+      "uid" -> text,
       "id" -> text
     )(RegisterRequest.apply)(RegisterRequest.unapply)
   )

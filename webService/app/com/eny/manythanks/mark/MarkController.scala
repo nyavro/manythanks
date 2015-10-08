@@ -9,10 +9,11 @@ import scala.concurrent.Future
 
 class MarkController extends Controller {
 
-   private case class MarkRequest(from:String, to:String, up:Boolean, message:String)
+   private case class MarkRequest(uid:String, from:String, to:String, up:Boolean, message:String)
 
    private val form = Form(
      mapping(
+       "uid" -> text,
        "from" -> text,
        "to" -> text,
        "up" -> boolean,
