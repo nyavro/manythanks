@@ -1,10 +1,7 @@
-import com.typesafe.sbt.digest.Import._
-import com.typesafe.sbt.gzip.Import._
-import com.typesafe.sbt.uglify.Import._
-import com.typesafe.sbt.web.Import._
 import play.PlayScala
 import sbt.Keys._
 import sbt._
+import play.PlayImport.PlayKeys._
 
 object ProjectBuild extends Build {
 
@@ -22,7 +19,7 @@ object ProjectBuild extends Build {
   .settings(
     name := "Many thanks!"
   )
-  .aggregate(gcmTransport)
+  .aggregate(gcmTransport, webService)
 
   lazy val gcmTransport = Project(
     id = "gcmTransport",
@@ -35,6 +32,23 @@ object ProjectBuild extends Build {
       "org.json4s" % "json4s-native_2.11" % Json4sVersion
     )
   )
+
+  lazy val webService = Project(
+    id = "webService",
+    base = file("webService"),
+    settings = super.settings ++ sharedSettings
+  )
+    .settings(
+      libraryDependencies ++= Seq(
+        "com.google.inject" % "guice" % "4.0",
+        "javax.inject" % "javax.inject" % "1"
+      ),
+      resolvers ++= Seq(
+        "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+      ),
+      routesImport += "com.eny.manythanks.contact.Bindable._"
+    )
+    .enablePlugins(PlayScala)
 
   lazy val sharedSettings = super.settings ++ Seq(
     version := "1.0.0",

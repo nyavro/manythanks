@@ -11,7 +11,6 @@ class Transport {
   val To = "to"
   val Data = "data"
   val GCM = "https://android.googleapis.com/gcm/send"
-//  AIzaSyC9lNqqUuaJRnT632s2Ba7ZIN5-I-RD1po
   val API_KEY = "AIzaSyDVV5tut_3_WCfBR4HgoQmcH-zN2_QIlrE"
 
   def composeMessage(message:String, target:String):Array[Byte] = {

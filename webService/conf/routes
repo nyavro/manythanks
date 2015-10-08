@@ -1,0 +1,1 @@
+GET           /contacts/list/:ids               @com.eny.manythanks.contact.ContactController.list(ids:List[String])
