@@ -1,1 +1,3 @@
-POST           /contacts/list               @com.eny.manythanks.contact.ContactController.list
+POST        /contacts/list        @com.eny.manythanks.contact.ContactController.list
+POST        /user/register        @com.eny.manythanks.user.RegisterController.register
+POST        /mark/create          @com.eny.manythanks.mark.MarkController.create

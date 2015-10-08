@@ -11,9 +11,9 @@ import scala.concurrent.Future
 
 class ContactController extends Controller {
 
-  case class ContactRequest(ids:List[String])
+  private case class ContactRequest(ids:List[String])
 
-  val form = Form(
+  private val form = Form(
     mapping(
       "ids" -> play.api.data.Forms.list(text)
     )(ContactRequest.apply)(ContactRequest.unapply)
