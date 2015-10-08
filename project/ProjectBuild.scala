@@ -1,7 +1,6 @@
 import play.PlayScala
 import sbt.Keys._
 import sbt._
-import play.PlayImport.PlayKeys._
 
 object ProjectBuild extends Build {
 
@@ -45,8 +44,7 @@ object ProjectBuild extends Build {
       ),
       resolvers ++= Seq(
         "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
-      ),
-      routesImport += "com.eny.manythanks.contact.Bindable._"
+      )
     )
     .enablePlugins(PlayScala)
 
