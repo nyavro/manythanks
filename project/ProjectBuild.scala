@@ -32,9 +32,9 @@ object ProjectBuild extends Build {
     )
   )
 
-  lazy val webService = Project(
-    id = "webService",
-    base = file("webService"),
+  lazy val webService2 = Project(
+    id = "webService2",
+    base = file("webService2"),
     settings = super.settings ++ sharedSettings
   )
     .settings(
@@ -47,6 +47,15 @@ object ProjectBuild extends Build {
       )
     )
     .enablePlugins(PlayScala)
+
+  lazy val webService = Project(
+    id = "webService",
+    base = file("webService"),
+    settings = super.settings ++ sharedSettings
+  )
+    .settings(
+
+    )
 
   lazy val sharedSettings = super.settings ++ Seq(
     version := "1.0.0",
