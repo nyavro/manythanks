@@ -9,6 +9,7 @@ object ProjectBuild extends Build {
   val ApacheCommonsVersion = "2.4"
   val SpecsVersion = "3.0.0-M9"
   val Json4sVersion = "3.3.0"
+  val AkkaStreamVersion = "1.0"
 
   lazy val parent = Project(
     id = "parent",
@@ -54,7 +55,11 @@ object ProjectBuild extends Build {
     settings = super.settings ++ sharedSettings
   )
     .settings(
-
+      libraryDependencies ++= Seq(
+        "com.typesafe.akka"  %% "akka-stream-experimental"             % AkkaStreamVersion,
+        "com.typesafe.akka"  %% "akka-http-core-experimental"          % AkkaStreamVersion,
+        "com.typesafe.akka"  %% "akka-http-spray-json-experimental"    % AkkaStreamVersion
+      )
     )
 
   lazy val sharedSettings = super.settings ++ Seq(
