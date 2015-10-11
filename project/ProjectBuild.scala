@@ -58,9 +58,12 @@ object ProjectBuild extends Build {
       libraryDependencies ++= Seq(
         "com.typesafe.akka"  %% "akka-stream-experimental"             % AkkaStreamVersion,
         "com.typesafe.akka"  %% "akka-http-core-experimental"          % AkkaStreamVersion,
-        "com.typesafe.akka"  %% "akka-http-spray-json-experimental"    % AkkaStreamVersion
+        "com.typesafe.akka"  %% "akka-http-spray-json-experimental"    % AkkaStreamVersion,
+        "org.scalatest"      %  "scalatest_2.11"                       % ScalatestVersion  % "test",
+        "com.typesafe.akka"  %% "akka-http-testkit-experimental"       % AkkaStreamVersion % "it,test"
       )
     )
+    .configs(IntegrationTest)
 
   lazy val sharedSettings = super.settings ++ Seq(
     version := "1.0.0",

@@ -8,12 +8,14 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.nyavro.manythanks.user.User
+import com.nyavro.manythanks.ws.auth.Token
 import spray.json.{DefaultJsonProtocol, _}
 
 import scala.concurrent.Future
 
 trait Protocols extends DefaultJsonProtocol {
   implicit val usersFormat = jsonFormat4(User)
+  implicit val tokensFormat = jsonFormat3(Token)
 }
 
 object Microservice extends App with Config with Protocols with SprayJsonSupport {
