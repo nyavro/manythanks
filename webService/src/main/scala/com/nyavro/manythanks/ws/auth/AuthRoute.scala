@@ -14,6 +14,11 @@ class AuthRoute(authService:AuthService) extends RouteProvider with SprayJsonSup
   implicit val system = ActorSystem()
   implicit val executor = system.dispatcher
   implicit val materializer = ActorMaterializer()
+
+  private case class LoginRequest(login: String, password: String)
+
+  private implicit val loginPasswordFormat = jsonFormat2(LoginRequest)
+
   override def route: Route = {
     pathPrefix("auth") {
       path("signUp") {
@@ -21,6 +26,15 @@ class AuthRoute(authService:AuthService) extends RouteProvider with SprayJsonSup
           post {
             entity(as[User]) { user =>
               complete(Created -> authService.signUp(user).map(_.toJson))
+            }
+          }
+        }
+      } ~
+      path("signIn") {
+        pathEndOrSingleSlash {
+          post {
+            entity(as[LoginRequest]) { loginRequest =>
+              complete(authService.signIn(loginRequest.login, loginRequest.password).map(_.toJson))
             }
           }
         }

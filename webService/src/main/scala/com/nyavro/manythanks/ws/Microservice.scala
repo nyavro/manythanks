@@ -8,7 +8,7 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.nyavro.manythanks.user.User
-import com.nyavro.manythanks.ws.auth.Token
+import com.nyavro.manythanks.ws.auth.{AuthService, AuthRoute, Token}
 import spray.json.{DefaultJsonProtocol, _}
 
 import scala.concurrent.Future
@@ -25,21 +25,16 @@ object Microservice extends App with Config with Protocols with SprayJsonSupport
 
   val logger = Logging(system, getClass)
 
-  //   /user/register
+  val authRoute = new AuthRoute(
+    new AuthService {
+      override def signUp(user: User): Future[Option[Token]] = Future(Some(Token(Some(3L), Some(4L), "signUpSucceessfullToken")))
+      override def signIn(login: String, password: String) = Future(Some(Token(Some(5L), Some(6L), "signInSucceessfullToken")))
+    }
+  )
+
   val routes = {
     pathPrefix("v1") {
-      pathPrefix("user") {
-        path("register") {
-          pathEndOrSingleSlash {
-            post {
-              entity(as[User]) { user =>
-                val map: Future[JsValue] = Future(User(Some(123L), "asdf", "login", "pwd")).map(_.toJson)
-                complete(Created -> map)
-              }
-            }
-          }
-        }
-      }
+      authRoute.route
     }
   }
 
