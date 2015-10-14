@@ -1,4 +1,4 @@
-package com.nyavro.manythanks.ws.auth
+package com.nyavro.manythanks.ws.route
 
 import akka.http.scaladsl.server.Route
 

@@ -6,8 +6,9 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
-import com.nyavro.manythanks.user.User
+import com.nyavro.manythanks.ws.user.User
 import com.nyavro.manythanks.ws.Protocols
+import com.nyavro.manythanks.ws.route.RouteProvider
 import spray.json._
 
 class AuthRoute(authService:AuthService) extends RouteProvider with SprayJsonSupport with Protocols {

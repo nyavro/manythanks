@@ -10,6 +10,7 @@ object ProjectBuild extends Build {
   val SpecsVersion = "3.0.0-M9"
   val Json4sVersion = "3.3.0"
   val AkkaStreamVersion = "1.0"
+  val SprayTestkitVersion = "1.3.1"
 
   lazy val parent = Project(
     id = "parent",
@@ -56,11 +57,13 @@ object ProjectBuild extends Build {
   )
     .settings(
       libraryDependencies ++= Seq(
-        "com.typesafe.akka"  %% "akka-stream-experimental"             % AkkaStreamVersion,
-        "com.typesafe.akka"  %% "akka-http-core-experimental"          % AkkaStreamVersion,
-        "com.typesafe.akka"  %% "akka-http-spray-json-experimental"    % AkkaStreamVersion,
+        "com.typesafe.akka"  % "akka-stream-experimental_2.11"             % AkkaStreamVersion,
+        "com.typesafe.akka"  % "akka-http-core-experimental_2.11"          % AkkaStreamVersion,
+        "com.typesafe.akka"  % "akka-http-spray-json-experimental_2.11"    % AkkaStreamVersion,
         "org.scalatest"      %  "scalatest_2.11"                       % ScalatestVersion  % "test",
-        "com.typesafe.akka"  %% "akka-http-testkit-experimental"       % AkkaStreamVersion % "it,test"
+        "com.typesafe.akka"  %% "akka-http-testkit-experimental"       % AkkaStreamVersion % "it,test",
+//        "io.spray"           % "spray-testkit_2.11"                        % SprayTestkitVersion % "test",
+        "io.spray"           % "spray-routing_2.11"                        % SprayTestkitVersion % "test"
       )
     )
     .configs(IntegrationTest)
