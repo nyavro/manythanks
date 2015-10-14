@@ -13,7 +13,7 @@ import spray.json.{JsObject, _}
 import spray.routing.HttpService
 import scala.concurrent.Future
 
-class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with MarkFormat with Protocols with HttpService {
+class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with MarkFormat with Protocols {
   "Mark route" should {
     "Create mark on authorized request" in {
       val newMark = Mark(None, "26-10-30", 35L, 51L, true, "Good luck!")
@@ -29,13 +29,11 @@ class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
           }
         )
       )
-
-      val requestEntity = HttpEntity(MediaTypes.`application/json`, newMark.toJson.toString())
-      val post: HttpRequest = Post("/mark/create", requestEntity)
-      val header: RequestTransformer = addHeader("Token", "dummyToken")
-      val route: Route = markRoute.route
-      post ~> header ~> route ~> check {
-        responseAs[JsObject] should be(newMark.copy(id=Some(3L)).toJson)
+      Post(
+        "/mark/create",
+        HttpEntity(MediaTypes.`application/json`, newMark.toJson.toString())
+      ) ~> addHeader("Token", "dummyTokenValue") ~> markRoute.route ~> check {
+        responseAs[JsObject] should be(newMark.copy(id = Some(3L)).toJson)
         response.status should be(StatusCodes.Created)
       }
     }
@@ -58,8 +56,11 @@ class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
           }
         )
       )
-      Post("/mark/create", HttpEntity(MediaTypes.`application/json`, newMark.toJson.toString())) ~> addHeader("Token", "dummyToken") ~> sealRoute(markRoute.route) ~> check {
-        response.status should be(StatusCodes.Unauthorized)
+      Post(
+        "/mark/create",
+        HttpEntity(MediaTypes.`application/json`, newMark.toJson.toString())
+      ) ~> addHeader("Token", "dummyToken") ~> markRoute.route ~> check {
+        handled shouldBe false
       }
     }
   }
