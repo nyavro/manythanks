@@ -59,7 +59,33 @@ class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
       Post(
         "/mark/create",
         HttpEntity(MediaTypes.`application/json`, newMark.toJson.toString())
-      ) ~> addHeader("Token", "dummyToken") ~> markRoute.route ~> check {
+      ) ~> addHeader("Token", "invalidToken") ~> markRoute.route ~> check {
+        handled shouldBe false
+      }
+    }
+    "Reject mark creation request on missing token" in {
+      val newMark = Mark(None, "26-10-31", 75L, 61L, true, "Good luck2!")
+      val markRoute = new MarkRoute(
+        new MarkService {
+          override def create(mark:Mark) = Future(None)
+        },
+        new Directives(
+          new AuthService {
+            override def authenticate(token: String) = Future(
+              token match {
+                case "correctToken" => Some(User(Some(1), "321", "end", "pwd"))
+                case _ => None
+              }
+            )
+            override def signUp(user: User) = ???
+            override def signIn(login: String, password: String) = ???
+          }
+        )
+      )
+      Post(
+        "/mark/create",
+        HttpEntity(MediaTypes.`application/json`, newMark.toJson.toString())
+      ) ~> markRoute.route ~> check {
         handled shouldBe false
       }
     }
