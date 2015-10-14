@@ -5,23 +5,22 @@ import akka.http.scaladsl.model.{HttpEntity, MediaTypes, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
 import com.nyavro.manythanks.ws.user.User
 import com.nyavro.manythanks.ws.Protocols
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
 import spray.json.{JsValue, _}
 
 import scala.concurrent.Future
 
-class AuthRouteTest extends WordSpec with Matchers with ScalatestRouteTest with Protocols {
+class AuthRouteTest extends WordSpec with Matchers with ScalatestRouteTest with Protocols with MockFactory {
   "Authentication service signUp" should {
 
     "Create user and return user's token" in {
       val newUser = User(Some(3L), "26 10 30", "Mars", "test1")
       val mockToken = Token(Some(123L), Some(1L), "123token321")
+      val authService = stub[AuthService]
+      authService.signUp _ when newUser returning Future(Some(mockToken))
       val authRoute = new AuthRoute(
-        new AuthService {
-          override def authenticate(token: String): Future[Option[User]] = ???
-          override def signUp(user: User): Future[Option[Token]] = Future(Some(mockToken))
-          override def signIn(login: String, password: String) = ???
-        }
+        authService
       )
       Post(
         "/auth/signUp",
