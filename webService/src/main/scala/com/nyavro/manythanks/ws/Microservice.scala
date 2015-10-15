@@ -35,7 +35,10 @@ object Microservice extends App with Config with Protocols with SprayJsonSupport
       }
     )
     override def signUp(user: User): Future[Option[Token]] = Future(Some(Token(Some(3L), Some(4L), "signUpSucceessfullToken")))
-    override def signIn(login: String, password: String) = Future(Some(Token(Some(5L), Some(6L), "signInSucceessfullToken")))
+    override def signIn(login: String, password: String) = Future(
+      if(login=="test") Some(Token(Some(5L), Some(6L), "signInSucceessfullToken"))
+      else None
+    )
   }
 
   val authRoute = new AuthRoute(
