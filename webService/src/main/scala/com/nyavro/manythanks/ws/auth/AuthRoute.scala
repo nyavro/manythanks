@@ -6,16 +6,17 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.stream.ActorMaterializer
-import com.nyavro.manythanks.ws.user.User
-import com.nyavro.manythanks.ws.Protocols
 import com.nyavro.manythanks.ws.route.RouteProvider
+import com.nyavro.manythanks.ws.user.{User, UserFormat}
 import spray.json._
 
-class AuthRoute(authService:AuthService) extends RouteProvider with SprayJsonSupport with Protocols {
-  implicit val system = ActorSystem()
-  implicit val executor = system.dispatcher
-  implicit val materializer = ActorMaterializer()
+import scala.concurrent.ExecutionContextExecutor
 
+class AuthRoute(authService:AuthService)
+  (implicit private val system:ActorSystem,
+   implicit private val executor: ExecutionContextExecutor,
+   implicit private val materializer: ActorMaterializer) extends RouteProvider
+      with SprayJsonSupport with UserFormat with TokenFormat {
   private case class LoginRequest(login: String, password: String)
 
   private implicit val loginPasswordFormat = jsonFormat2(LoginRequest)

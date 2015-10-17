@@ -1,20 +1,18 @@
 package com.nyavro.manythanks.ws.mark
 
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import akka.http.scaladsl.model.{HttpEntity, HttpRequest, MediaTypes, _}
-import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.model.{HttpEntity, MediaTypes, _}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import com.nyavro.manythanks.ws.Protocols
 import com.nyavro.manythanks.ws.auth.AuthService
 import com.nyavro.manythanks.ws.security.Directives
 import com.nyavro.manythanks.ws.user.User
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
 import spray.json.{JsObject, _}
-import spray.routing.HttpService
+
 import scala.concurrent.Future
 
-class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with MarkFormat with Protocols with MockFactory {
+class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with MarkFormat with MockFactory {
   "Mark route" should {
     "Create mark on authorized request" in {
       val newMark = Mark(None, "26-10-30", 35L, 51L, true, "Good luck!")

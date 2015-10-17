@@ -3,15 +3,15 @@ package com.nyavro.manythanks.ws.auth
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 import akka.http.scaladsl.model.{HttpEntity, MediaTypes, StatusCodes}
 import akka.http.scaladsl.testkit.ScalatestRouteTest
-import com.nyavro.manythanks.ws.user.User
-import com.nyavro.manythanks.ws.Protocols
+import com.nyavro.manythanks.ws.user.{User, UserFormat}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
 import spray.json.{JsValue, _}
 
 import scala.concurrent.Future
 
-class AuthRouteTest extends WordSpec with Matchers with ScalatestRouteTest with Protocols with MockFactory {
+class AuthRouteTest extends WordSpec with Matchers with ScalatestRouteTest with TokenFormat with UserFormat with MockFactory {
+
   "AuthRoute" should {
     "Create user and return user's token" in {
       val newUser = User(Some(3L), "26 10 30", "Mars", "test1")

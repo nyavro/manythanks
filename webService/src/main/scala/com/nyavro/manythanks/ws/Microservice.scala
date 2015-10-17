@@ -15,12 +15,7 @@ import spray.json.{DefaultJsonProtocol, _}
 
 import scala.concurrent.Future
 
-trait Protocols extends DefaultJsonProtocol {
-  implicit val usersFormat = jsonFormat4(User)
-  implicit val tokensFormat = jsonFormat3(Token)
-}
-
-object Microservice extends App with Config with Protocols with SprayJsonSupport {
+object Microservice extends App with Config with SprayJsonSupport {
   implicit val system = ActorSystem()
   implicit val executor = system.dispatcher
   implicit val materializer = ActorMaterializer()

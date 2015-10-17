@@ -10,12 +10,13 @@ import com.nyavro.manythanks.ws.route.RouteProvider
 import com.nyavro.manythanks.ws.security.Directives
 import spray.json._
 
+import scala.concurrent.ExecutionContextExecutor
 
-class MarkRoute(service:MarkService, directives:Directives) extends RouteProvider with SprayJsonSupport with MarkFormat {
 
-  implicit val system = ActorSystem()
-  implicit val executor = system.dispatcher
-  implicit val materializer = ActorMaterializer()
+class MarkRoute(service:MarkService, directives:Directives)
+  (implicit private val system:ActorSystem,
+   implicit private val executor: ExecutionContextExecutor,
+   implicit private val materializer: ActorMaterializer) extends RouteProvider with SprayJsonSupport with MarkFormat {
 
   override def route: Route = pathPrefix("mark") {
     path("create") {
