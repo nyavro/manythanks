@@ -1,2 +1,0 @@
-POST        /contacts/list        @com.eny.manythanks.contact.ContactController.list
-POST        /mark/create          @com.eny.manythanks.mark.MarkController.create

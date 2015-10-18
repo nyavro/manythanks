@@ -12,7 +12,6 @@ import spray.json._
 
 import scala.concurrent.ExecutionContextExecutor
 
-
 class MarkRoute(service:MarkService, directives:Directives)
   (implicit private val system:ActorSystem,
    implicit private val executor: ExecutionContextExecutor,
