@@ -1,4 +1,3 @@
-import play.PlayScala
 import sbt.Keys._
 import sbt._
 
@@ -34,22 +33,6 @@ object ProjectBuild extends Build {
       "org.json4s" % "json4s-native_2.11" % Json4sVersion
     )
   )
-
-  lazy val webService2 = Project(
-    id = "webService2",
-    base = file("webService2"),
-    settings = super.settings ++ sharedSettings
-  )
-    .settings(
-      libraryDependencies ++= Seq(
-        "com.google.inject" % "guice" % "4.0",
-        "javax.inject" % "javax.inject" % "1"
-      ),
-      resolvers ++= Seq(
-        "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
-      )
-    )
-    .enablePlugins(PlayScala)
 
   lazy val webService = Project(
     id = "webService",
