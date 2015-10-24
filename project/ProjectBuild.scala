@@ -64,7 +64,7 @@ object ProjectBuild extends Build {
         "org.scalatest"      % "scalatest_2.11"                            % ScalatestVersion  % "test",
         "com.typesafe.akka"  % "akka-http-testkit-experimental_2.11"       % AkkaStreamVersion % "it,test",
         "io.spray"           % "spray-routing_2.11"                        % SprayTestkitVersion % "test",
-        "org.scalamock"      % "scalamock-scalatest-support_2.11"          % ScalamockVersion
+        "org.scalamock"      % "scalamock-scalatest-support_2.11"          % ScalamockVersion % "test"
       )
     )
     .configs(IntegrationTest)

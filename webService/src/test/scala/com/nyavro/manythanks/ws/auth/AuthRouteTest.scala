@@ -16,6 +16,8 @@ class AuthRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
     "Create user and return user's token" in {
       val newUser = User(Some(3L), "26 10 30", "Mars", "test1")
       val mockToken = Token(Some(123L), Some(1L), "123token321")
+      case class UserToken(userId:Long, token:String)
+      implicit val userTokenFormat = jsonFormat2(UserToken)
       val authService = stub[AuthService]
       authService.signUp _ when newUser returning Future(Some(mockToken))
       val authRoute = new AuthRoute(authService)
@@ -24,7 +26,7 @@ class AuthRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
         HttpEntity(MediaTypes.`application/json`, newUser.toJson.toString())
       ) ~> authRoute.route ~> check {
         response.status should be(StatusCodes.Created)
-        mockToken should be(tokensFormat.read(responseAs[JsValue]))
+        UserToken(1L, "123token321") should be(userTokenFormat.read(responseAs[JsValue]))
       }
     }
     "Retrieve token of existing user" in {

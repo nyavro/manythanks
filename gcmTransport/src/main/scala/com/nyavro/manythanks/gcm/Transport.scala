@@ -40,6 +40,6 @@ class Transport {
 
 object Transport extends Transport {
   def main(args: Array[String]): Unit = {
-    send("Оля, привет!!", "/topics/global")
+    send("Привет лунатикам!!", "/topics/global")
   }
 }
