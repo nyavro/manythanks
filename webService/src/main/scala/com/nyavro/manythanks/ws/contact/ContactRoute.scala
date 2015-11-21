@@ -10,7 +10,7 @@ import com.nyavro.manythanks.ws.route.RouteProvider
 import com.nyavro.manythanks.ws.security.Directives
 import spray.json._
 
-import scala.concurrent.{ExecutionContextExecutor, Future}
+import scala.concurrent.ExecutionContextExecutor
 
 
 class ContactRoute(service:ContactService, directives:Directives)
@@ -30,12 +30,15 @@ class ContactRoute(service:ContactService, directives:Directives)
         directives.authenticate { loggedUser =>
           post {
             entity(as[ContactListRequest]) { item =>
-              val list: Future[List[Contact]] = service.list(item.extIds)
-              println(item.extIds.mkString(","))
-              complete(OK -> list.map(item=>{println("-----" + item);ContactListResponse(item)}).map(_.toJson))
+              complete(OK -> service.list(item.extIds).map(ContactListResponse).map(_.toJson))
             }
           }
         }
+      }
+    } ~ path("test") {
+      get {
+        println("here")
+        complete(OK)
       }
     }
   }

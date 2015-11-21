@@ -1,3 +1,3 @@
 package com.nyavro.manythanks.ws.contact
 
-case class Contact(name:String, phone:Option[String])
+case class Contact(id:Long, phone:String)

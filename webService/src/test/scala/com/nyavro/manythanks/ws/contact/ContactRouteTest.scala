@@ -16,15 +16,15 @@ class ContactRouteTest extends WordSpec with Matchers with ScalatestRouteTest wi
   "Contact route" should {
     "List contacts on authorized request" in {
       val contactService = stub[ContactService]
-      contactService.list _ when List("1", "2", "3") returns Future(List(Contact("test", Some("123"))))
+      contactService.list _ when List("1", "123", "3") returns Future(List(Contact(71L, "123")))
       val authService = stub[AuthService]
       authService.authenticate _ when "validTokenValue" returns Future(Some(User(Some(1), "32", "en", "pwd")))
       val contactRoute = new ContactRoute(contactService, new Directives(authService))
       Post(
         "/contact/list",
-        HttpEntity(MediaTypes.`application/json`, """{"extIds":["1","2","3"]}""")
+        HttpEntity(MediaTypes.`application/json`, """{"extIds":["1","123","3"]}""")
       ) ~> addHeader("Token", "validTokenValue") ~> contactRoute.route ~> check {
-        responseAs[JsObject].toString should be(s"""{"list":${List(Contact("test", Some("123"))).toJson}}""")
+        responseAs[JsObject].toString should be(s"""{"list":${List(Contact(71L, "123")).toJson}}""")
         response.status should be(StatusCodes.OK)
       }
     }
