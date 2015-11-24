@@ -15,9 +15,9 @@ import scala.concurrent.Future
 class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with MarkFormat with MockFactory {
   "Mark route" should {
     "Create mark on authorized request" in {
-      val newMark = Mark(None, "26-10-30", 35L, 51L, true, "Good luck!")
+      val newMark = Mark(35L, true, "Good luck!")
       val markService = stub[MarkService]
-      (markService.create _) when (newMark) returns(Future(Some(newMark.copy(id = Some(3L)))))
+      (markService.create _) when (newMark) returns(Future(Some(newMark)))
       val authService = stub[AuthService]
       (authService.authenticate _) when ("validTokenValue") returns(Future(Some(User(Some(1), "32", "en", "pwd"))))
       val markRoute = new MarkRoute(markService,  new Directives(authService))
@@ -25,7 +25,7 @@ class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
         "/mark/create",
         HttpEntity(MediaTypes.`application/json`, newMark.toJson.toString())
       ) ~> addHeader("Token", "validTokenValue") ~> markRoute.route ~> check {
-        responseAs[JsObject] should be(newMark.copy(id = Some(3L)).toJson)
+        responseAs[JsObject] should be(newMark.toJson)
         response.status should be(StatusCodes.Created)
       }
     }

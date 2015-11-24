@@ -38,7 +38,7 @@ object Microservice extends App with Config with SprayJsonSupport {
   )
   val markRoute = new MarkRoute(
     new MarkService {
-      override def create(mark: Mark) = Future(Some(mark.copy(id=Some(321123L))))
+      override def create(mark: Mark) = Future(Some(mark))
     },
     directives
   )
