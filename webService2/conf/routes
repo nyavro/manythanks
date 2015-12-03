@@ -1,1 +1,0 @@
-POST        /contacts/list        @com.eny.manythanks.contact.ContactController.list

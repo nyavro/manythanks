@@ -11,6 +11,8 @@ object ProjectBuild extends Build {
   val AkkaStreamVersion = "1.0"
   val SprayTestkitVersion = "1.3.1"
   val ScalamockVersion = "3.2.2"
+  val SlickVersion     = "3.1.0"
+  val MySQLConnectorVersion = "5.1.37"
 
   lazy val parent = Project(
     id = "parent",
@@ -51,6 +53,18 @@ object ProjectBuild extends Build {
       )
     )
     .configs(IntegrationTest)
+
+  lazy val repository = Project(
+    id = "repository",
+    base = file("repository"),
+    settings = super.settings ++ sharedSettings
+  )
+    .settings(
+      libraryDependencies ++= Seq(
+        "mysql" % "mysql-connector-java" % MySQLConnectorVersion,
+        "com.typesafe.slick" % "slick_2.11" % SlickVersion
+      )
+    )
 
   lazy val sharedSettings = super.settings ++ Seq(
     version := "1.0.0",
