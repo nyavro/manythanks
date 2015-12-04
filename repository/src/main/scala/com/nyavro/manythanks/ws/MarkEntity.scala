@@ -2,7 +2,7 @@ package com.nyavro.manythanks.ws
 
 import java.util.Date
 
-case class MarkEntity(id: Option[Long] = None, from: Long, to: Long, message:String, time:Date, value:Int)
+case class MarkEntity(id: Option[Long] = None, from: Long, to: Long, message:String, time:Long, value:Int)
 
 case class MarkEntityUpdate(msg: Option[String] = None, vl: Option[Int] = None) {
   def merge(mark: MarkEntity) =
