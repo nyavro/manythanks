@@ -1,20 +1,19 @@
 package com.nyavro.manythanks.ws
 
-trait MarkRepository extends DatabaseConfig {
+import scala.concurrent.Future
+
+object MarkRepository extends MarkRepository
+
+trait MarkRepository extends MarkTable {
 
   import driver.api._
 
-  class Mark(tag: Tag) extends Table[MarkEntity](tag, "mark") {
-    def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
-    def source = column[Long]("source")
-    def target = column[Long]("target")
-    def message = column[String]("message")
-    def time = column[Long]("tm")
-    def value = column[Int]("value")
+  def marksTo(id:Long): Future[Seq[MarkEntity]] = db.run(mark.filter(_.target === id).result)
 
-    def * = (id, source, target, message, time, value) <> ((MarkEntity.apply _).tupled, MarkEntity.unapply)
-  }
+  def create(newMark:MarkEntity): Future[MarkEntity] =
+    db.run(
+      (mark returning mark.map(_.id) into ((newMark, id) => newMark.copy(id = id))) += newMark
+    )
 
-  protected val mark = TableQuery[Mark]
-
+  def delete(id: Long): Future[Int] = db.run(mark.filter(_.id === id).delete)
 }
