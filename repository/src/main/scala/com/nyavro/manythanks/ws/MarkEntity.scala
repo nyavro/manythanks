@@ -1,7 +1,5 @@
 package com.nyavro.manythanks.ws
 
-import java.util.Date
-
 case class MarkEntity(id: Option[Long] = None, from: Long, to: Long, message:String, ts:Long, value:Int)
 
 case class MarkEntityUpdate(msg: Option[String] = None, vl: Option[Int] = None) {
