@@ -12,7 +12,8 @@ class Transport {
   val Data = "data"
   val GCM = "https://android.googleapis.com/gcm/send"
   val API_KEY = "AIzaSyDVV5tut_3_WCfBR4HgoQmcH-zN2_QIlrE"
-
+  val sampleToken =
+    "dQNhIKBYag4:APA91bGtZ1POzF21mPfKnLlNEfxShc4vz36Qjv2gGmjbZUtLa4a9jDIiIqIfFjcOrh-40EBrsY_MXXjeIuS2UDwNT6-BkxGoTevQr5mvtvUcQv9ISoaCju4QycdbOxDaG_bYJ5XIT_lO"
   def composeMessage(message:String, target:String):Array[Byte] = {
     val json =
       (To -> target) ~
@@ -40,6 +41,7 @@ class Transport {
 
 object Transport extends Transport {
   def main(args: Array[String]): Unit = {
-    send("Привет лунатикам!!", "/topics/global")
+//    send("Привет лунатикам!!", "/topics/global")
+    send("Привет лунатикам!!", sampleToken)
   }
 }
