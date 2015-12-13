@@ -11,7 +11,7 @@ class MarkRepositoryTest extends WordSpec with Matchers with ScalaFutures with C
   implicit val defaultPatience =
     PatienceConfig(timeout = Span(5, Seconds), interval = Span(500, Millis))
 
-  "Mark repository" should {
+  "Mark repository" ignore {
     "save mark" in {
       whenReady(
         for (
@@ -62,6 +62,19 @@ class MarkRepositoryTest extends WordSpec with Matchers with ScalaFutures with C
         ) yield created
       ) { result =>
         result.id.isDefined should === (true)
+      }
+    }
+    "updates" in {
+      whenReady(
+        for(
+          created <- MarkRepository.create(MarkEntity(None, 19L, 23L, "colnes", System.currentTimeMillis(), 10));
+          updated <- MarkRepository.update(created.id.get, MarkEntityUpdate(Some("coolness!!!")));
+          deleted <- MarkRepository.delete(created.id.get)
+        ) yield (created, updated)
+      ) { case (created, updated) =>
+        updated.isDefined should === (true)
+        created.id should === (updated.get.id)
+        updated.get.message should === ("coolness!!!")
       }
     }
   }
