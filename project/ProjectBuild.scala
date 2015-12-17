@@ -20,7 +20,7 @@ object ProjectBuild extends Build {
   .settings(
     name := "Many thanks!"
   )
-  .aggregate(gcmTransport, repository, webService)
+  .aggregate(gcmTransport, repository, webService, serviceAPI, serviceImpl)
 
   lazy val gcmTransport = Project(
     id = "gcmTransport",
@@ -51,8 +51,15 @@ object ProjectBuild extends Build {
       )
     )
     .configs(IntegrationTest)
+    .dependsOn(serviceAPI)
 
   lazy val repository = project.in(file("repository"))
+
+  lazy val serviceAPI = project.in(file("serviceAPI"))
+
+  lazy val serviceImpl = project
+    .in(file("serviceImpl"))
+    .dependsOn(serviceAPI, repository, gcmTransport)
 
   lazy val sharedSettings = super.settings ++ Seq(
     version := "1.0.0",
