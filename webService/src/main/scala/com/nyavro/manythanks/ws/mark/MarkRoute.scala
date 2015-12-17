@@ -24,7 +24,12 @@ class MarkRoute(service:MarkService, directives:Directives)(
         directives.authenticate { loggedUser =>
           post {
             entity(as[Mark]) { mark =>
-              complete(Created -> service.create(mark).map(_.toJson))
+              complete(
+                loggedUser.id match {
+                  case Some(from) => Created -> service.create(mark, from).map(_.toJson)
+                  case _ => Unauthorized
+                }
+              )
             }
           }
         }

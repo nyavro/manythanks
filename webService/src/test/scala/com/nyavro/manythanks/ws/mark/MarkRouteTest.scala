@@ -17,7 +17,7 @@ class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
     "Create mark on authorized request" in {
       val newMark = Mark(35L, true, "Good luck!")
       val markService = stub[MarkService]
-      (markService.create _) when (newMark) returns(Future(Some(newMark)))
+      (markService.create _) when (newMark, *) returns(Future(Some(newMark)))
       val authService = stub[AuthService]
       (authService.authenticate _) when ("validTokenValue") returns(Future(Some(User(Some(1), "32", "en", "pwd"))))
       val markRoute = new MarkRoute(markService,  new Directives(authService))
@@ -40,7 +40,7 @@ class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
       ) ~> addHeader("Token", "invalidToken") ~> markRoute.route ~> check {
         handled shouldBe false
       }
-      (markService.create _).expects(*) never()
+      (markService.create _).expects(*, *) never()
     }
     "Reject mark creation request on missing token" in {
       val markService = mock[MarkService]
@@ -52,7 +52,7 @@ class MarkRouteTest extends WordSpec with Matchers with ScalatestRouteTest with 
       ) ~> markRoute.route ~> check {
         handled shouldBe false
       }
-      (markService.create _).expects(*) never()
+      (markService.create _).expects(*, *) never()
       (authService.authenticate _).expects(*) never()
     }
   }
