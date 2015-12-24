@@ -9,6 +9,7 @@ object ProjectBuild extends Build {
   val SpecsVersion = "3.0.0-M9"
   val Json4sVersion = "3.3.0"
   val AkkaStreamVersion = "1.0"
+  val GuiceVersion = "4.0"
   val SprayTestkitVersion = "1.3.1"
   val ScalamockVersion = "3.2.2"
 
@@ -44,6 +45,7 @@ object ProjectBuild extends Build {
         "com.typesafe.akka"  % "akka-stream-experimental_2.11"             % AkkaStreamVersion,
         "com.typesafe.akka"  % "akka-http-core-experimental_2.11"          % AkkaStreamVersion,
         "com.typesafe.akka"  % "akka-http-spray-json-experimental_2.11"    % AkkaStreamVersion,
+        "com.google.inject"  % "guice"                                     % GuiceVersion,
         "org.scalatest"      % "scalatest_2.11"                            % ScalatestVersion  % "test",
         "com.typesafe.akka"  % "akka-http-testkit-experimental_2.11"       % AkkaStreamVersion % "it,test",
         "io.spray"           % "spray-routing_2.11"                        % SprayTestkitVersion % "test",

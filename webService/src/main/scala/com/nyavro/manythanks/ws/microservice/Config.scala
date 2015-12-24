@@ -1,4 +1,4 @@
-package com.nyavro.manythanks.ws
+package com.nyavro.manythanks.ws.microservice
 
 import com.typesafe.config.ConfigFactory
 

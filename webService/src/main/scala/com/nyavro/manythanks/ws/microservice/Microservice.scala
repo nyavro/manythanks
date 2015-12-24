@@ -1,4 +1,4 @@
-package com.nyavro.manythanks.ws
+package com.nyavro.manythanks.ws.microservice
 
 import akka.actor.ActorSystem
 import akka.event.Logging
@@ -7,7 +7,7 @@ import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport
 import akka.http.scaladsl.server.Directives._
 import akka.stream.ActorMaterializer
 import com.nyavro.manythanks.ws.auth.{AuthRoute, AuthService, Token}
-import com.nyavro.manythanks.ws.contact.{Contact, ContactService, ContactRoute}
+import com.nyavro.manythanks.ws.contact.{Contact, ContactRoute, ContactService}
 import com.nyavro.manythanks.ws.mark.{Mark, MarkRoute, MarkService}
 import com.nyavro.manythanks.ws.security.Directives
 import com.nyavro.manythanks.ws.user.User
